@@ -300,7 +300,7 @@ namespace WinDHCP.Library
 
             if (!this.m_Abort)
             {
-                Trace.TraceInformation("Dhcp Messages Received, Queued for Processing.");
+                Trace.TraceInformation("Dhcp Message Received, Queued for Processing.");
 
                 // Queue this request for processing
                 ThreadPool.QueueUserWorkItem(new WaitCallback(this.CompleteRequest), data);
