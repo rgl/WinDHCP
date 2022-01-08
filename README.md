@@ -1,13 +1,16 @@
-# WinDHCP
+# About
 
 [![Build status](https://github.com/rgl/WinDHCP/workflows/Build/badge.svg)](https://github.com/rgl/WinDHCP/actions?query=workflow%3ABuild)
 
-A Windows DHCP Server Written in C#
+This is an incomplete DHCP Server that can run in any Windows edition.
 
-## Overview
+It only supports DHCPv4 Discover/Request messages on Ethernet networks.
 
-WinDHCP is windows service written in C#. It provides the basic DHCP functionality necessary to assign IP addresses on your LAN w/ subnet, gateway, and dns information. Currently it only processes DHCP Discover and Request messages, all others are ignored. WinDHCP was written using Visual Studio 2022 Community and has only been compiled and tested for .NET 4.8 on Windows 10. For more information on what DHCP is see http://en.wikipedia.org/wiki/DHCP.
+For more information about DHCP see http://en.wikipedia.org/wiki/DHCP.
 
 ## Motivation
 
-Many of the cheap commodity routers currently available have very poor DHCP implementations. The freely available DHCP offerings on the internet primarily target Linux/Unix environments (ISC DHCP, for example, will not compile on Windows). WinDHCP makes it possible and easy to set up any Windows machine as a DHCP server.
+This was put together because the Hyper-V Default Switch comes with a DHCP service (managed by the Internet Connection Sharing service aka ICS) that cannot be configured and does not play well with Packer/Vagrant and VMs reboots.
+
+This can be used as a DHCP server for the Packer/Vagrant VM images at [rgl/debian-vagrant](https://github.com/rgl/debian-vagrant), [rgl/ubuntu-vagrant](https://github.com/rgl/ubuntu-vagrant), and [rgl/windows-vagrant](https://github.com/rgl/windows-vagrant).
+
