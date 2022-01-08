@@ -3,6 +3,7 @@ using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
 using System.ServiceProcess;
+using System.Threading;
 using WinDHCP.Library;
 using WinDHCP.Library.Configuration;
 using NetworkInterface = System.Net.NetworkInformation.NetworkInterface;
@@ -83,10 +84,17 @@ namespace WinDHCP
                 DhcpHost host = new DhcpHost(server);
                 host.ManualStart(args);
 
-                Console.WriteLine("DHCP Service Running.");
-                Console.WriteLine("Hit [Enter] to Terminate.");
+                var quitEvent = new ManualResetEvent(false);
+                Console.CancelKeyPress += (object sender, ConsoleCancelEventArgs e) =>
+                {
+                    e.Cancel = true;
+                    quitEvent.Set();
+                };
 
-                Console.ReadLine();
+                Console.WriteLine("DHCP Service Running.");
+                Console.WriteLine("Press Ctrl+C to terminate.");
+
+                quitEvent.WaitOne();
 
                 host.ManualStop();
             }
