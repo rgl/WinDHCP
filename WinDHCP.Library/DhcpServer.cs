@@ -39,6 +39,7 @@ namespace WinDHCP.Library
 
         private Timer m_CleanupTimer;
 
+        private Dictionary<PhysicalAddress, AddressLease> m_Owners = new Dictionary<PhysicalAddress, AddressLease>();
         private Dictionary<InternetAddress, AddressLease> m_ActiveLeases = new Dictionary<InternetAddress,AddressLease>();
         private SortedList<InternetAddress, AddressLease> m_InactiveLeases = new SortedList<InternetAddress, AddressLease>();
 
@@ -414,6 +415,7 @@ namespace WinDHCP.Library
                 {
                     lock (this.m_LeaseSync)
                     {
+                        // assign the requested ip address if its available.
                         if (!addressRequest.Equals(InternetAddress.Empty))
                         {
                             if (this.m_InactiveLeases.ContainsKey(addressRequest))
@@ -427,7 +429,17 @@ namespace WinDHCP.Library
                                 offer = this.m_ActiveLeases[addressRequest];
                             }
                         }
-                        else if (this.m_InactiveLeases.Count > 0)
+
+                        // assign the old ip address if its available.
+                        if (offer == null && this.m_Owners.ContainsKey(clientHardwareAddress) && this.m_Owners[clientHardwareAddress].Owner.Equals(clientHardwareAddress))
+                        {
+                            offer = this.m_Owners[clientHardwareAddress];
+                            this.m_InactiveLeases.Remove(offer.Address);
+                            this.m_ActiveLeases[offer.Address] = offer;
+                        }
+
+                        // assign a new ip address.
+                        if (offer == null && this.m_InactiveLeases.Count > 0)
                         {
                             offer = this.m_InactiveLeases.Values[0];
                             this.m_InactiveLeases.Remove(offer.Address);
@@ -446,7 +458,15 @@ namespace WinDHCP.Library
                 offer.Acknowledged = false;
                 offer.Expiration = DateTime.Now.Add(this.m_OfferTimeout);
                 offer.SessionId = message.SessionId;
-                offer.Owner = clientHardwareAddress;
+                if (!clientHardwareAddress.Equals(offer.Owner))
+                {
+                    if (offer.Owner != null)
+                    {
+                        this.m_Owners.Remove(offer.Owner);
+                    }
+                    offer.Owner = clientHardwareAddress;
+                    this.m_Owners[clientHardwareAddress] = offer;
+                }
                 this.SendOffer(message, offer);
             }
         }
