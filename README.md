@@ -14,3 +14,26 @@ This was put together because the Hyper-V Default Switch comes with a DHCP servi
 
 This can be used as a DHCP server for the Packer/Vagrant VM images at [rgl/debian-vagrant](https://github.com/rgl/debian-vagrant), [rgl/ubuntu-vagrant](https://github.com/rgl/ubuntu-vagrant), and [rgl/windows-vagrant](https://github.com/rgl/windows-vagrant).
 
+## Service Installation
+
+In a elevated PowerShell session install the latest release of WinDHCP with, for example:
+
+```powershell
+$releasesUrl = 'https://github.com/rgl/WinDHCP/releases'
+$latestResponse = Invoke-RestMethod -Headers @{Accept='application/json'} "$releasesUrl/latest"
+$latestTag = $latestResponse.tag_name
+$artifactUrl = "$releasesUrl/download/$latestTag/WinDHCP.zip"
+$artifactPath = "$env:TEMP\WinDHCP.zip"
+$installPath = "$env:ProgramFiles\WinDHCP"
+Add-Type -AssemblyName System.IO.Compression.FileSystem
+(New-Object Net.WebClient).DownloadFile($artifactUrl, $artifactPath)
+[System.IO.Compression.ZipFile]::ExtractToDirectory($artifactPath, $installPath)
+&"$installPath\install.ps1" `
+    -networkInterface 'vEthernet (Vagrant)' `
+    -gateway '192.168.192.1' `
+    -startAddress '192.168.192.100' `
+    -endAddress '192.168.192.250' `
+    -subnet '255.255.255.0' `
+    -leaseDuration '0.01:00:00' `
+    -dnsServers @('1.1.1.1', '1.0.0.1')
+```

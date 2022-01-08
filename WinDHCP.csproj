@@ -14,6 +14,11 @@
     <None Remove="WinDHCP.TestClient\**" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="install.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="WinDHCP.Library\WinDHCP.Library.csproj" />
   </ItemGroup>
   <ItemGroup>
