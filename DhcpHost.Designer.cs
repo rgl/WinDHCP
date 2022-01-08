@@ -31,7 +31,7 @@ namespace WinDHCP
             // 
             // DhcpHost
             // 
-            this.ServiceName = "DhcpService";
+            this.ServiceName = "WinDHCP";
 
         }
 
