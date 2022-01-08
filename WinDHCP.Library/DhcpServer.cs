@@ -540,7 +540,13 @@ namespace WinDHCP.Library
             }
 
             this.SendReply(response);
-            Trace.TraceInformation("{0} Dhcp Offer Sent.", Thread.CurrentThread.ManagedThreadId);
+
+            Trace.TraceInformation(
+                "{0} Dhcp Offer Sent SessionId={1} MAC={2} IP={3}.",
+                Thread.CurrentThread.ManagedThreadId,
+                response.SessionId,
+                ToMacAddressHexString(response.ClientHardwareAddress),
+                offer.Address);
         }
 
         private void SendAck(DhcpMessage message, AddressLease lease)
@@ -562,7 +568,13 @@ namespace WinDHCP.Library
             AddDhcpOptions(response);
 
             this.SendReply(response);
-            Trace.TraceInformation("{0} Dhcp Acknowledge Sent.", Thread.CurrentThread.ManagedThreadId);
+
+            Trace.TraceInformation(
+                "{0} Dhcp Acknowledge Sent SessionId={1} MAC={2} IP={3}.",
+                Thread.CurrentThread.ManagedThreadId,
+                response.SessionId,
+                ToMacAddressHexString(response.ClientHardwareAddress),
+                lease.Address);
         }
 
         private void AddDhcpOptions(DhcpMessage response)
@@ -604,7 +616,12 @@ namespace WinDHCP.Library
             response.AddOption(DhcpOption.DhcpMessageType, (Byte)DhcpMessageType.Nak);
 
             this.SendReply(response);
-            Trace.TraceInformation("{0} Dhcp Negative Acknowledge Sent.", Thread.CurrentThread.ManagedThreadId);
+
+            Trace.TraceInformation(
+                "{0} Dhcp Negative Acknowledge Sent SessionId={1} MAC={2}.",
+                Thread.CurrentThread.ManagedThreadId,
+                response.SessionId,
+                ToMacAddressHexString(response.ClientHardwareAddress));
         }
 
         private void SendReply(DhcpMessage response)
@@ -622,6 +639,11 @@ namespace WinDHCP.Library
                 TraceException("Error Sending Dhcp Reply", ex);
                 throw;
             }
+        }
+
+        private static string ToMacAddressHexString(byte[] ba)
+        {
+            return BitConverter.ToString(ba).Replace("-", ":");
         }
     }
 }
