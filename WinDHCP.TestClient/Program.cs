@@ -7,7 +7,7 @@ using System.Net;
 using WinDHCP.Library;
 using NetworkInterface = System.Net.NetworkInformation.NetworkInterface;
 
-namespace WinDHCPTestClient
+namespace WinDHCP.TestClient
 {
     class Program
     {

@@ -3,7 +3,7 @@ A Windows DHCP Server Written in C#
 
 ## Overview
 
-WinDHCP is windows service written in C#. It provides the basic DHCP functionality necessary to assign IP addresses on your LAN w/ subnet, gateway, and dns information. Currently it only processes DHCP Discover and Request messages, all others are ignored. WinDHCP was written using Visual Studio 2008 Express and has only been compiled and tested for .Net 3.5 on Windows Vista, although it should be possible to compile for .Net 2.0 and 3.0 as well, and should run in any environment that supports the .Net framework. For more information on what DHCP is see http://en.wikipedia.org/wiki/DHCP.
+WinDHCP is windows service written in C#. It provides the basic DHCP functionality necessary to assign IP addresses on your LAN w/ subnet, gateway, and dns information. Currently it only processes DHCP Discover and Request messages, all others are ignored. WinDHCP was written using Visual Studio 2022 Community and has only been compiled and tested for .NET 4.8 on Windows 10. For more information on what DHCP is see http://en.wikipedia.org/wiki/DHCP.
 
 ## Motivation
 

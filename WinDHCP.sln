@@ -1,11 +1,13 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual C# Express 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinDHCP", "WinDHCP.csproj", "{795547E6-8681-4087-8F93-4FB4AFEA2174}"
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinDHCP", "WinDHCP.csproj", "{795547E6-8681-4087-8F93-4FB4AFEA2174}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinDHCPLib", "WinDHCPLib\WinDHCPLib.csproj", "{92D7F13D-2134-489E-BC6A-3896FEEFC927}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinDHCP.Library", "WinDHCP.Library\WinDHCP.Library.csproj", "{92D7F13D-2134-489E-BC6A-3896FEEFC927}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinDHCPTestClient", "WinDHCPTestClient\WinDHCPTestClient.csproj", "{7F63490B-66A3-4CC9-B91C-C2A9E67EB062}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinDHCP.TestClient", "WinDHCP.TestClient\WinDHCP.TestClient.csproj", "{7F63490B-66A3-4CC9-B91C-C2A9E67EB062}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
