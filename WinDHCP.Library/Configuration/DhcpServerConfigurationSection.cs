@@ -10,9 +10,9 @@ namespace WinDHCP.Library.Configuration
         private ConfigurationPropertyCollection m_Properties;
 
         [ConfigurationProperty("networkInterface")]
-        public Int32 NetworkInterface
+        public String NetworkInterface
         {
-            get { return (Int32)this["networkInterface"]; }
+            get { return (String)this["networkInterface"]; }
         }
 
         [ConfigurationProperty("startAddress", IsRequired = true)]
@@ -88,8 +88,7 @@ namespace WinDHCP.Library.Configuration
                 if (this.m_Properties == null)
                 {
                     this.m_Properties = new ConfigurationPropertyCollection();
-
-                    this.m_Properties.Add(new ConfigurationProperty("networkInterface", typeof(Int32), -1));
+                    this.m_Properties.Add(new ConfigurationProperty("networkInterface", typeof(String), ""));
                     this.m_Properties.Add(new ConfigurationProperty("startAddress", typeof(String), "192.168.1.100", ConfigurationPropertyOptions.IsRequired));
                     this.m_Properties.Add(new ConfigurationProperty("endAddress", typeof(String), "192.168.1.150", ConfigurationPropertyOptions.IsRequired));
                     this.m_Properties.Add(new ConfigurationProperty("subnet", typeof(String), "255.255.255.0", ConfigurationPropertyOptions.IsRequired));

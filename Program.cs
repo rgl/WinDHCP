@@ -1,11 +1,10 @@
-using System.Collections.Generic;
-using System.ServiceProcess;
-using System.Text;
 using System;
-using System.Diagnostics;
 using System.Configuration;
-using WinDHCP.Library.Configuration;
+using System.Diagnostics;
+using System.Linq;
+using System.ServiceProcess;
 using WinDHCP.Library;
+using WinDHCP.Library.Configuration;
 using NetworkInterface = System.Net.NetworkInformation.NetworkInterface;
 
 namespace WinDHCP
@@ -22,9 +21,9 @@ namespace WinDHCP
 
             if (dhcpConfig != null)
             {
-                if (dhcpConfig.NetworkInterface >= 0)
+                if (!string.IsNullOrEmpty(dhcpConfig.NetworkInterface))
                 {
-                    server.DhcpInterface = NetworkInterface.GetAllNetworkInterfaces()[dhcpConfig.NetworkInterface];
+                    server.DhcpInterface = NetworkInterface.GetAllNetworkInterfaces().First(i => i.Name == dhcpConfig.NetworkInterface);
                 }
 
                 server.StartAddress = InternetAddress.Parse(dhcpConfig.StartAddress.Trim());
