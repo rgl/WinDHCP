@@ -198,7 +198,7 @@ namespace WinDHCP.Library
                 }
 #endif
             }
-            
+
             foreach (UnicastIPAddressInformation interfaceAddress in this.m_DhcpInterface.GetIPProperties().UnicastAddresses)
             {
                 if (interfaceAddress.Address.AddressFamily == AddressFamily.InterNetwork)
@@ -221,7 +221,7 @@ namespace WinDHCP.Library
             this.m_DhcpSocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, 1);
             this.m_DhcpSocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.Broadcast, 1);
             this.m_DhcpSocket.Bind(new IPEndPoint(this.m_DhcpInterfaceAddress, DhcpPort));
-            
+
             this.Listen();
 
             Trace.TraceInformation("Dhcp Service Started.");
@@ -337,21 +337,6 @@ namespace WinDHCP.Library
             {
                 message = new DhcpMessage(messageData);
             }
-            catch (ArgumentException ex)
-            {
-                TraceException("Error Parsing Dhcp Message", ex);
-                return;
-            }
-            catch (InvalidCastException ex)
-            {
-                TraceException("Error Parsing Dhcp Message", ex);
-                return;
-            }
-            catch (IndexOutOfRangeException ex)
-            {
-                TraceException("Error Parsing Dhcp Message", ex);
-                return;
-            }
             catch (Exception ex)
             {
                 TraceException("Error Parsing Dhcp Message", ex);
@@ -407,7 +392,7 @@ namespace WinDHCP.Library
             {
                 addressRequestData = message.ClientAddress;
             }
-            
+
             InternetAddress addressRequest = new InternetAddress(addressRequestData);
 
             // Assume we're on an ethernet network
@@ -489,7 +474,7 @@ namespace WinDHCP.Library
 
             AddressLease assignment = null;
             Boolean ack = false;
-            
+
             // If this client is explicitly allowed, or they are not denied and the allow any flag is set
             if (this.m_Acl.ContainsKey(clientHardwareAddress) && this.m_Acl[clientHardwareAddress] ||
                 !this.m_Acl.ContainsKey(clientHardwareAddress) && this.m_AllowAny)
