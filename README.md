@@ -1,4 +1,7 @@
 # WinDHCP
+
+[![Build status](https://github.com/rgl/WinDHCP/workflows/Build/badge.svg)](https://github.com/rgl/WinDHCP/actions?query=workflow%3ABuild)
+
 A Windows DHCP Server Written in C#
 
 ## Overview
