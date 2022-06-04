@@ -5,13 +5,25 @@ jobs:
     name: Build
     runs-on: windows-2022
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Setup .NET
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v2
         with:
-          dotnet-version: '6.0.101'
+          dotnet-version: '6.0.300'
       - name: Build
-        run: dotnet build --configuration Release -warnAsError
+        run: |
+          $version = if ($env:GITHUB_REF_TYPE -eq 'tag') {
+            if ($env:GITHUB_REF -notmatch '^refs/tags/v(\d+(.\d+)+(-.+)?)') {
+              throw "invalid GITHUB_REF: $env:GITHUB_REF"
+            }
+            $Matches[1]
+          } else {
+            '0.0.0'
+          }
+          dotnet build `
+            --configuration Release `
+            "-property:Version=$version" `
+            -warnAsError
       - name: Create Artifacts
         run: |
           Compress-Archive `
@@ -20,7 +32,7 @@ jobs:
             -DestinationPath WinDHCP.zip
           Write-Output "$((Get-FileHash WinDHCP.zip -Algorithm 'SHA256').Hash) WinDHCP.zip"
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: WinDHCP-Artifacts
           path: |
@@ -33,9 +45,9 @@ jobs:
       - build
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Download artifacts
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
       - name: Release notes
         run: |
           echo "sha256 $(sha256sum WinDHCP-Artifacts/*.zip | awk '{print $1}')" >release-notes.md
